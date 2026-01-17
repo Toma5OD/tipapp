@@ -1,0 +1,28 @@
+{
+  "name": "tip-app",
+  "version": "1.0.0",
+  "description": "Multi-musician QR tipping web app with Stripe Connect",
+  "main": "index.js",
+  "scripts": {
+    "build": "tailwindcss -i ./src/styles.css -o ./public/styles/main.css --minify",
+    "watch": "tailwindcss -i ./src/styles.css -o ./public/styles/main.css --watch",
+    "dev": "netlify dev"
+  },
+  "keywords": [
+    "stripe",
+    "tipping",
+    "qr-code",
+    "netlify"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "stripe": "^14.0.0",
+    "@supabase/supabase-js": "^2.39.0",
+    "nanoid": "^3.3.7"
+  },
+  "devDependencies": {
+    "netlify-cli": "^17.0.0",
+    "tailwindcss": "^3.4.0"
+  }
+}

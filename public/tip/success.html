@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0ea5e9">
+    <title>Thank You!</title>
+    <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body class="min-h-screen flex items-center justify-center bg-gray-50">
+    <div class="max-w-md mx-auto px-4 py-8">
+        <div class="card">
+            <div class="p-8 text-center">
+                <!-- Success Icon -->
+                <div class="mb-6">
+                    <svg class="w-20 h-20 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+
+                <!-- Thank You Message -->
+                <h1 class="text-3xl font-bold text-gray-900 mb-4">Thank You!</h1>
+                <p class="text-lg text-gray-600 mb-6">
+                    Your tip has been sent successfully. The musician appreciates your support!
+                </p>
+
+                <!-- Payment Receipt Info -->
+                <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                    <p class="text-sm text-gray-600">
+                        A receipt has been sent to your email address.
+                    </p>
+                </div>
+
+                <!-- Close Button -->
+                <button
+                    onclick="window.location.href='/'"
+                    class="btn-primary w-full"
+                >
+                    Done
+                </button>
+            </div>
+        </div>
+
+        <!-- Additional Info -->
+        <div class="mt-6 text-center text-sm text-gray-500">
+            <p>Your payment was processed securely by Stripe</p>
+        </div>
+    </div>
+</body>
+</html>

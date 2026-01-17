@@ -1,0 +1,18 @@
+{
+  "musicians": [
+    {
+      "id": "john-smith",
+      "displayName": "John Smith",
+      "description": "Jazz pianist at The Blue Note. Thank you for your support!",
+      "profileImage": "/images/default-avatar.png",
+      "bannerImage": "/images/default-banner.png",
+      "currency": "usd",
+      "presetAmounts": [5, 10, 20, 50],
+      "customAmountEnabled": true,
+      "customAmountMin": 1,
+      "stripeAccountId": "",
+      "setupComplete": false,
+      "createdAt": "2026-01-16T12:00:00Z"
+    }
+  ]
+}

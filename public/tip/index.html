@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0ea5e9">
+    <title>Send a Tip</title>
+    <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body class="min-h-screen">
+    <!-- Loading State -->
+    <div id="loading" class="flex items-center justify-center min-h-screen">
+        <div class="text-center">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
+            <p class="mt-4 text-gray-600">Loading...</p>
+        </div>
+    </div>
+
+    <!-- Error State -->
+    <div id="error" class="hidden">
+        <div class="max-w-md mx-auto px-4 py-8">
+            <div class="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
+                <svg class="w-16 h-16 text-red-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <h2 class="text-xl font-bold text-red-900 mb-2">Unable to Load</h2>
+                <p id="error-message" class="text-red-700"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Setup Incomplete State -->
+    <div id="setup-incomplete" class="hidden">
+        <div class="max-w-md mx-auto px-4 py-8">
+            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6 text-center">
+                <svg class="w-16 h-16 text-yellow-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                </svg>
+                <h2 class="text-xl font-bold text-yellow-900 mb-2">Setup Incomplete</h2>
+                <p class="text-yellow-700">This musician has not completed their setup yet. Please check back later.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content" class="hidden">
+        <!-- Banner Image -->
+        <div class="relative h-48 bg-gradient-to-r from-primary-600 to-primary-800">
+            <img id="banner-image" class="w-full h-full object-cover" alt="Banner">
+        </div>
+
+        <!-- Profile Section -->
+        <div class="max-w-2xl mx-auto px-4">
+            <!-- Profile Image (overlapping banner) -->
+            <div class="flex justify-center -mt-16 mb-4">
+                <img id="profile-image" class="w-32 h-32 rounded-full border-4 border-white shadow-lg object-cover bg-white" alt="Profile">
+            </div>
+
+            <!-- Musician Info -->
+            <div class="text-center mb-8">
+                <h1 id="musician-name" class="text-3xl font-bold mb-2"></h1>
+                <p id="musician-description" class="text-gray-600 text-lg"></p>
+            </div>
+
+            <!-- Tip Amount Selection -->
+            <div class="card mb-6">
+                <div class="p-6">
+                    <h2 class="text-xl font-semibold mb-4">Select Tip Amount</h2>
+
+                    <!-- Preset Amounts Grid -->
+                    <div id="preset-amounts" class="grid grid-cols-2 gap-3 mb-6">
+                        <!-- Preset buttons will be inserted here -->
+                    </div>
+
+                    <!-- Custom Amount -->
+                    <div id="custom-amount-section" class="hidden">
+                        <div class="relative">
+                            <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-2xl font-bold text-gray-700">$</span>
+                            <input
+                                type="number"
+                                id="custom-amount"
+                                class="w-full pl-10 pr-4 py-4 text-2xl font-bold border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary-500"
+                                placeholder="0"
+                                min="1"
+                                step="1"
+                            >
+                        </div>
+                        <p class="text-sm text-gray-500 mt-2">Enter a custom amount</p>
+                    </div>
+
+                    <!-- Toggle Custom Amount Button -->
+                    <button
+                        id="toggle-custom"
+                        class="w-full py-3 text-primary-600 font-semibold hover:bg-primary-50 rounded-lg transition-colors duration-200"
+                    >
+                        Enter Custom Amount
+                    </button>
+                </div>
+            </div>
+
+            <!-- Send Tip Button -->
+            <button
+                id="send-tip-btn"
+                class="w-full btn-primary py-4 text-xl mb-8"
+                disabled
+            >
+                Send Tip
+            </button>
+
+            <!-- Payment Error -->
+            <div id="payment-error" class="hidden bg-red-50 border border-red-200 rounded-lg p-4 mb-6 text-center">
+                <p class="text-red-700 font-semibold">Payment Error</p>
+                <p id="payment-error-message" class="text-red-600 text-sm mt-1"></p>
+            </div>
+
+            <!-- Footer -->
+            <div class="text-center text-sm text-gray-500 pb-8">
+                <p>Secure payments powered by Stripe</p>
+                <p class="mt-2">Tips go directly to the musician</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/tip-page.js"></script>
+</body>
+</html>

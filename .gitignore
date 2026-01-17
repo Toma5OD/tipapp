@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Build output
+public/styles/main.css
+
+# Environment variables
+.env
+.env.local
+
+# Netlify
+.netlify/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

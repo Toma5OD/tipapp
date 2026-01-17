@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0ea5e9">
+    <title>Setup Your Tipping Account</title>
+    <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body class="min-h-screen bg-gray-50">
+    <div class="max-w-md mx-auto px-4 py-8">
+        <div class="card">
+            <div class="p-8">
+                <!-- Header -->
+                <div class="text-center mb-8">
+                    <h1 class="text-3xl font-bold text-gray-900 mb-2">Welcome!</h1>
+                    <p class="text-gray-600">Set up your Stripe account to start receiving tips</p>
+                </div>
+
+                <!-- Form -->
+                <form id="setup-form" class="space-y-6">
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
+                            Email Address
+                        </label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                            placeholder="your@email.com"
+                        >
+                        <p class="text-sm text-gray-500 mt-2">
+                            This will be used for your Stripe account
+                        </p>
+                    </div>
+
+                    <button
+                        type="submit"
+                        id="submit-btn"
+                        class="w-full btn-primary"
+                    >
+                        Continue to Stripe
+                    </button>
+                </form>
+
+                <!-- Error Message -->
+                <div id="error-message" class="hidden mt-6 bg-red-50 border border-red-200 rounded-lg p-4">
+                    <p class="text-red-700 text-sm font-semibold">Error</p>
+                    <p id="error-text" class="text-red-600 text-sm mt-1"></p>
+                </div>
+
+                <!-- Info -->
+                <div class="mt-8 pt-6 border-t border-gray-200">
+                    <h3 class="font-semibold text-gray-900 mb-3">What happens next?</h3>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-primary-600 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span>You'll be redirected to Stripe to create your account</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-primary-600 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span>Complete identity verification (required by law)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-primary-600 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span>Add your bank account for payouts</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-primary-600 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span>Start receiving tips directly to your account</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-6 text-center text-sm text-gray-500">
+            <p>Powered by Stripe Connect</p>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            const form = document.getElementById('setup-form');
+            const emailInput = document.getElementById('email');
+            const submitBtn = document.getElementById('submit-btn');
+            const errorMessageEl = document.getElementById('error-message');
+            const errorTextEl = document.getElementById('error-text');
+
+            // Get musician ID from URL
+            function getMusicianId() {
+                const params = new URLSearchParams(window.location.search);
+                return params.get('musician_id');
+            }
+
+            // Show error
+            function showError(message) {
+                errorTextEl.textContent = message;
+                errorMessageEl.classList.remove('hidden');
+            }
+
+            // Handle form submission
+            async function handleSubmit(e) {
+                e.preventDefault();
+
+                const musicianId = getMusicianId();
+                if (!musicianId) {
+                    showError('Musician ID is missing from URL');
+                    return;
+                }
+
+                const email = emailInput.value.trim();
+                if (!email) {
+                    showError('Please enter your email address');
+                    return;
+                }
+
+                // Disable button and show loading
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Processing...';
+                errorMessageEl.classList.add('hidden');
+
+                try {
+                    const response = await fetch('/.netlify/functions/onboard', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            musicianId: musicianId,
+                            email: email,
+                        }),
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(data.error || 'Failed to create onboarding link');
+                    }
+
+                    // Redirect to Stripe onboarding
+                    window.location.href = data.url;
+
+                } catch (error) {
+                    console.error('Onboarding error:', error);
+                    showError(error.message);
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Continue to Stripe';
+                }
+            }
+
+            // Check if musician ID is present
+            const musicianId = getMusicianId();
+            if (!musicianId) {
+                showError('This link is invalid. Please contact support.');
+                submitBtn.disabled = true;
+            }
+
+            // Set up event listener
+            form.addEventListener('submit', handleSubmit);
+        })();
+    </script>
+</body>
+</html>
