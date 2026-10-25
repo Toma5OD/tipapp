@@ -22,7 +22,14 @@
     "nanoid": "^3.3.7"
   },
   "devDependencies": {
-    "netlify-cli": "^17.0.0",
+    "netlify-cli": "27.14.2",
     "tailwindcss": "^3.4.0"
+  },
+  "engines": {
+    "node": ">=22.23.4 <23"
+  },
+  "overrides": {
+    "postcss-selector-parser": "7.1.7",
+    "toml": "5.0.1"
   }
 }
